@@ -11,6 +11,8 @@ router.post("/", jsonParse, ContactController.create);
 
 router.delete("/:contactId", ContactController.remove);
 
-router.put("/:contactId", ContactController.update);
+router.put("/:contactId", jsonParse, ContactController.update);
+
+router.patch("/:contactId/favorite", jsonParse, ContactController.updateFavorite);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const express = require('express');
 const jsonParse = express.json();
 const router = express.Router();
-const ContactController = require('../../controllers/contact');
+const ContactController = require('../../controllers/contacts');
 
 router.get("/", ContactController.getAll);
 

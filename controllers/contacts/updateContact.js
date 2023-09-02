@@ -14,12 +14,13 @@ async function update(req, res, next) {
     name: req.body.name,
     email: req.body.email,
     phone: req.body.phone,
+    owner: req.user._id,
   };
   try {
     const result = await Contact.findByIdAndUpdate(contactId, contact, {
       new: true,
     }).exec();
-    if (result === null) {
+    if (result === null || result.owner !== req.user._id) {
       return res.status(404).json({ message: "Not found" });
     }
     return res.json(result);

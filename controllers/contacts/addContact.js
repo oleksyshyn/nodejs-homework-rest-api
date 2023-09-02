@@ -10,8 +10,10 @@ async function create(req, res, next) {
     name: req.body.name,
     email: req.body.email,
     phone: req.body.phone,
+    owner: req.user._id,
   };
   try {
+    // const { _id: owner } = req.user;
     const doc = await Contact.create(contact);
     return res.status(201).json(doc);
   } catch (error) {

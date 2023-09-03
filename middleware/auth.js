@@ -6,19 +6,19 @@ async function auth(req, res, next) {
   const authHeader = req.headers.authorization;
 
   if (typeof authHeader !== "string") {
-    return res.status(401).json({ message: "Not authorized1" });
+    return res.status(401).json({ message: "Not authorized" });
   }
 
   const [bearer, token] = authHeader.split(" ", 2);
 
   if (bearer !== "Bearer") {
-    return res.status(401).json({ message: "Not authorized2" });
+    return res.status(401).json({ message: "Not authorized" });
   }
 
   jwt.verify(token, JWT_SECRET, async (err, decode) => {
     if (err) {
       if (err.name === "TokenExpiredError" || err.name === "JsonWebTokenError") {
-        return res.status(401).json({ message: "Not authorized3" });
+        return res.status(401).json({ message: "Not authorized" });
       }
       return next(err);
     }
@@ -26,11 +26,9 @@ async function auth(req, res, next) {
     try {
       const user = await User.findById(decode.id);
       if (!user || user.token !== token) {
-        return res.status(401).json({ message: "Not authorized4" });
+        return res.status(401).json({ message: "Not authorized" });
       }
       req.user = { _id: decode.id };
-      // const id = req.user._id;
-      // console.log(id);
       next();
     } catch (error) {
       next(err);
